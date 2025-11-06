@@ -1,0 +1,45 @@
+/* algemene stijlregels */
+body {
+    font-family: Helvetica, Arial, sans-serif;
+}
+h1, h2 {
+    color: #EDF2F4;
+}
+
+a {
+    color: #EF233C;
+}
+
+header, footer, main > section {
+    padding: 30px;
+}
+
+header, footer {
+    background-color: #2B2D42;
+    color: #8D99AE;
+}
+
+/* specifieke stijlregels */
+
+h1 {
+    font-size: 80px;
+}
+h2 {
+    font-size: 40px;
+}
+
+main > section {
+    background-color: #8D99AE;
+}
+
+footer {
+    margin-top: 10px;
+}
+
+header {
+    margin-bottom: 10px;
+}
+
+main > section > h2 {
+    color: black;
+}
