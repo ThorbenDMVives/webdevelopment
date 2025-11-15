@@ -1,0 +1,46 @@
+
+html {
+    margin-left: 300px;
+    margin-right: 300px;
+    margin-bottom: 10px;
+}
+
+body {
+    font-family: Verdana, "Times New Roman", sans-serif;
+    font-size: 12px;
+}
+
+nav {
+    background: dimgray;
+    margin-bottom: 2px;
+}
+
+nav > a {
+    color: limegreen;
+    text-decoration: none;
+}
+
+
+article {
+    background: lightgray;
+
+}
+
+
+h1 {
+    background-image:url("header.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-bottom: 50px;
+    color: white;
+    margin-bottom: 0;
+    font-size: 40px;
+}
+
+
+h2 {
+    color: #2a2c2c;
+    text-decoration: underline #2a2c2c;
+    padding-top: 30px;
+    margin-top: 10px;
+}
