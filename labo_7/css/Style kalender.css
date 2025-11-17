@@ -1,0 +1,58 @@
+.kalender {
+    border-collapse: collapse;
+    width: 600px;
+    margin: 20px auto;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 1.2em;
+}
+
+.kalender th, .kalender td {
+    padding: 15px;
+    border: 1px solid #777;
+    width: 14.28%;
+}
+
+.maand-kop th {
+    background-color: rgb(170, 170, 200);
+    color: white;
+    font-size: 1.5em;
+    padding: 20px;
+}
+
+.weekdagen th {
+    color: rgb(200, 190, 240);
+    background-color: rgb(35, 37, 70);
+    font-weight: bold;
+}
+
+.kalender tbody tr td:first-child {
+    background-color: rgb(255, 220, 220);
+}
+
+.kalender tbody tr td:last-child {
+    background-color: rgb(255, 220, 220);
+}
+
+.vorige-maand, .volgende-maand {
+    color: gray;
+}
+
+.feestdag {
+    background-color: rgb(250, 120, 120);
+    font-weight: bold;
+    color: white;
+}
+
+.feestdag:last-child, .feestdag:first-child {
+    background-color: rgb(250, 120, 120);
+}
+
+.vorige-maand:last-child, .volgende-maand:first-child {
+    background-color: rgb(255, 220, 220);
+}
+
+td.volgende-maand.feestdag {
+    background-color: rgb(250, 120, 120);
+    color: white;
+}
