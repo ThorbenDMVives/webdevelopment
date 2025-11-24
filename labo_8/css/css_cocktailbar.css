@@ -1,0 +1,64 @@
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1.2em;
+    margin: 0 2.5% 2.5% 2.5%;
+    display: flex;
+
+}
+
+header p img {
+    display: block;
+    margin: auto;
+}
+
+h1 {
+    color: #007e7e;
+    font-size: 150%;
+}
+
+h2 {
+    font-size: 130%;
+    color: #007e7e;
+}
+
+.elixirs {
+    float: right;
+    width: 30%;
+    text-align: center;
+    margin-right: 5px;
+}
+
+.elixirs a:hover {
+    background: #7a593f;
+}
+
+
+#lemonbreeze {
+    color: lightsalmon;
+}
+
+#chairchiller {
+    color: cornflowerblue;
+}
+
+#blackbrainbrew {
+    color: black;
+}
+
+#content {
+    width: 70%;
+}
+
+#guarantee {
+    border: dotted gray 2px;
+    margin: 30px;
+    padding: 20px 20px 20px 80px;
+    color: gray;
+    background-color: lightblue;
+    background-image: url("../images/background.gif");
+    background-repeat: no-repeat;
+}
+
+footer {
+    font-size: 0.5em;
+}
