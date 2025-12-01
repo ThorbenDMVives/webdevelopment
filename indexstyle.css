@@ -1,0 +1,48 @@
+/* basis */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    color: #222;
+}
+
+/* koppen */
+h1 {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+h2 {
+    margin-top: 25px;
+    margin-bottom: 8px;
+    color: #004080;
+    border-bottom: 2px solid #004080;
+    padding-bottom: 3px;
+}
+
+/* tekst */
+p {
+    max-width: 60rem;
+}
+
+/* links */
+a {
+    display: inline-block;
+    margin: 3px 0;
+    color: #0055aa;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* optioneel: alle linkregels iets inspringen */
+h2 + a {
+    margin-left: 10px;
+}
