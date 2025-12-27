@@ -42,7 +42,4 @@ a:hover {
     text-decoration: underline;
 }
 
-/* optioneel: alle linkregels iets inspringen */
-h2 + a {
-    margin-left: 10px;
-}
+
