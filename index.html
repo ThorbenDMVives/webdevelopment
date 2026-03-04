@@ -2,111 +2,820 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Web Development</title>
-    <link rel="stylesheet" href="indexstyle.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WEB DEVELOPMENT // PORTFOLIO ARCHIVE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --void: #090014;
+            --fg: #E0E0E0;
+            --card-bg: rgba(26,16,60,0.85);
+            --magenta: #FF00FF;
+            --cyan: #00FFFF;
+            --orange: #FF9900;
+            --border-dim: #2D1B4E;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--void);
+            color: var(--fg);
+            font-family: 'Share Tech Mono', monospace;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ── SCANLINES OVERLAY ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(rgba(18,16,20,0) 50%, rgba(0,0,0,0.22) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 9000;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(255,0,0,0.04), rgba(0,255,0,0.02), rgba(0,0,255,0.04));
+            pointer-events: none;
+            z-index: 9001;
+        }
+
+        /* ── BACKGROUND LAYERS ── */
+        .bg-sun {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: linear-gradient(to bottom, var(--orange), var(--magenta));
+            opacity: 0.12;
+            filter: blur(100px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-grid {
+            position: fixed;
+            bottom: 0;
+            left: -20%;
+            right: -20%;
+            height: 55vh;
+            background-image:
+                    linear-gradient(transparent 95%, rgba(255,0,255,0.5) 95%),
+                    linear-gradient(90deg, transparent 95%, rgba(255,0,255,0.5) 95%);
+            background-size: 40px 40px;
+            transform: perspective(500px) rotateX(60deg) translateY(0px);
+            transform-origin: bottom center;
+            mask-image: linear-gradient(to bottom, transparent 0%, black 60%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 60%);
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        /* ── WRAPPER ── */
+        .wrapper {
+            position: relative;
+            z-index: 10;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 1.5rem 6rem;
+        }
+
+        /* ── HEADER ── */
+        header {
+            padding: 4rem 0 3rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .header-tag {
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--cyan);
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 1.2rem;
+            opacity: 0.7;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: clamp(2.2rem, 6vw, 4rem);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: linear-gradient(to right, var(--orange), var(--magenta), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 30px rgba(255,0,255,0.5));
+            line-height: 1.1;
+        }
+
+        .header-subtitle {
+            margin-top: 0.8rem;
+            color: var(--cyan);
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+            opacity: 0.6;
+        }
+
+        .header-line {
+            margin: 2rem auto 0;
+            height: 2px;
+            max-width: 400px;
+            background: linear-gradient(to right, transparent, var(--magenta), var(--cyan), transparent);
+        }
+
+        /* ── SECTION ── */
+        section {
+            margin-top: 3.5rem;
+        }
+
+        .section-heading {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.35em;
+            color: var(--magenta);
+            filter: drop-shadow(0 0 8px rgba(255,0,255,0.7));
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .section-heading::before { content: '>'; color: var(--cyan); opacity: 0.8; }
+        .section-heading::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, var(--border-dim), transparent);
+        }
+
+        /* ── LINK GRID ── */
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 0.75rem;
+        }
+
+        /* ── LINK CARD ── */
+        .link-card {
+            display: block;
+            text-decoration: none;
+            position: relative;
+            border: 1px solid rgba(255,0,255,0.25);
+            border-top: 2px solid var(--cyan);
+            background: var(--card-bg);
+            backdrop-filter: blur(8px);
+            padding: 0.9rem 1.1rem;
+            transition: all 0.15s linear;
+            overflow: hidden;
+        }
+
+        .link-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0,255,255,0.03), transparent);
+            opacity: 0;
+            transition: opacity 0.15s linear;
+        }
+
+        .link-card:hover {
+            border-color: var(--cyan);
+            border-top-color: var(--magenta);
+            background: rgba(26,16,60,0.95);
+            transform: translateY(-2px);
+            box-shadow: 0 0 18px rgba(0,255,255,0.2), 0 0 40px rgba(255,0,255,0.08);
+        }
+
+        .link-card:hover::before { opacity: 1; }
+
+        .link-card .card-prefix {
+            font-size: 0.6rem;
+            letter-spacing: 0.25em;
+            color: var(--cyan);
+            opacity: 0.5;
+            text-transform: uppercase;
+            margin-bottom: 0.3rem;
+        }
+
+        .link-card .card-label {
+            font-size: 0.88rem;
+            color: var(--fg);
+            letter-spacing: 0.08em;
+            transition: color 0.15s linear;
+        }
+
+        .link-card:hover .card-label {
+            color: var(--cyan);
+            filter: drop-shadow(0 0 5px rgba(0,255,255,0.6));
+        }
+
+        .link-card .card-arrow {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--magenta);
+            opacity: 0;
+            font-size: 0.85rem;
+            transition: opacity 0.15s linear, right 0.15s linear;
+        }
+
+        .link-card:hover .card-arrow {
+            opacity: 1;
+            right: 0.7rem;
+        }
+
+        /* Pair card (html + css/js side by side) */
+        .link-pair {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .link-pair .link-card {
+            flex: 1;
+        }
+
+        .link-card.css-card {
+            border-top-color: var(--orange);
+        }
+        .link-card.css-card:hover {
+            border-top-color: var(--orange);
+            box-shadow: 0 0 18px rgba(255,153,0,0.2);
+        }
+        .link-card.css-card:hover .card-label {
+            color: var(--orange);
+            filter: drop-shadow(0 0 5px rgba(255,153,0,0.6));
+        }
+        .link-card.css-card .card-arrow { color: var(--orange); }
+
+        .link-card.js-card {
+            border-top-color: #FFE600;
+        }
+        .link-card.js-card:hover {
+            border-top-color: #FFE600;
+            box-shadow: 0 0 18px rgba(255,230,0,0.2);
+        }
+        .link-card.js-card:hover .card-label {
+            color: #FFE600;
+            filter: drop-shadow(0 0 5px rgba(255,230,0,0.5));
+        }
+        .link-card.js-card .card-arrow { color: #FFE600; }
+
+        /* ── FOOTER ── */
+        footer {
+            margin-top: 5rem;
+            text-align: center;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            color: var(--fg);
+            opacity: 0.2;
+            text-transform: uppercase;
+        }
+
+        /* ── CURSOR BLINK ── */
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+        .cursor { animation: blink 1s step-end infinite; color: var(--cyan); }
+
+        @media (max-width: 520px) {
+            .link-pair { flex-direction: column; }
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
 </head>
 <body>
-<h1>Web Development</h1>
-<h2>Personal homepage + links naar andere pagina's (NIEUWSTE VERSIE)</h2>
-<p>deze link bevat de inhoud van alle oefeningen rond de homepage en dus alles van labo 4 + alle nieuwe aanpassingen tot de homepage in latere labo's</p>
-<a href="labo_4%20+%20homepage/Homepage/hoofdpagina%20index.html">Personal homepage</a>
-<br>
-<h2>labo 2</h2>
-<a href="labo_2/Opdracht%2010.html">opdracht 10 </a>
-<a href=labo_2/voorbeeld%20headings.html>opdracht 9 </a>
-<br>
-<a href="labo_2/Opdracht%205.html">opdracht 5 </a>
-<br>
-<a href="labo_2/Opdracht%204.html">opdracht 4 </a>
-<br>
-<a href="labo_2/Opdracht%203.html">opdracht 3 </a>
-<br>
-<h2>labo 3</h2>
-<a href="labo_3/Personal%20homepage%20assistant.html">Personal homepage</a>
-<br>
-<a href="labo_3/Contact%20informatie.html">Contact informatie</a>
-<br>
-<a href="labo_3/Opleidingsaanbod%20VIVES.html">Opleidingsaanbod VIVES</a>
-<br>
-<a href="labo_3/Homepage%20copy.html">Copy oefening homepage en tabel</a>
-<br>
-<h2>labo 5</h2>
-<a href="labo_5/Opdracht%206.html">Opdracht 6 </a> <a href="labo_5/Opmaak.css">stylesheet voor Opdracht 6</a>
-<br>
-<a href="labo_5/Opdracht%207.html">Opdracht 7 </a>
-<br>
-<h2>labo 6</h2>
-<a href="Labo_6/html/Opdracht%201.html">Opdracht 1</a> <a href="Labo_6/css/Style%20Opdracht%201.css">CSS voor opdracht 1</a>
-<br>
-<a href="Labo_6/html/Opdracht%203.html">Opdracht 3</a> <a href="Labo_6/css/Style%20Opdracht%203.css">CSS voor opdracht 3</a>
-<br>
-<a href="Labo_6/html/Opdracht%204.html">Opdracht 4</a> <a href="Labo_6/css/Style%20Opdracht%204.css">CSS voor opdracht 4</a>
-<br>
-<a href="Labo_6/html/Opdracht%205.html">Opdracht 5</a> <a href="Labo_6/css/Style%20Opdracht%205.css">CSS voor opdracht 5</a>
-<br>
-<a href="Labo_6/html/Opdracht%206.html">Opdracht 6</a> <a href="Labo_6/css/Style%20Opdracht%206.css">CSS voor opdracht 6</a>
-<br>
-<h2>labo 7</h2>
-<a href="labo_7/html/Opdracht%201%20Nature%20blog.html">Opdracht Nature blog</a> <a href="labo_7/css/Style%20Opdracht%20Nature%20blog.css">CSS nature blog</a>
-<br>
-<a href="labo_7/html/Opdracht%20homepage%20CSS.html">Opdracht homepage CSS</a> <a href="labo_7/css/Styles.css">CSS homepage</a>
-<br>
-<a href="labo_7/html/Opdracht%20tabel%20vrienden.html">Opdracht tabel vrienden</a> <a href="labo_7/css/Style%20tabel%20vrienden.css">CSS tabel vrienden</a>
-<br>
-<a href="labo_7/html/Opdracht%20kalender.html">Opdracht kalender</a> <a href="labo_7/css/Style%20kalender.css">CSS kalender</a>
-<br>
-<h2>labo 8</h2>
-<a href="labo_8/html/Opdracht%20lorem%20ipsum.html">lorem ipsum</a> <a href="labo_8/css/css_lorem_ipsum.css">CSS lorem ipsum</a>
-<br>
-<a href="labo_8/html/Cocktail%20bar.html">cocktail</a> <a href="labo_8/css/css_cocktailbar.css">CSS cocktail</a>
-<h2>labo 9</h2>
-<a href="labo_9/Opdracht%20positionering/html/positionering.html">positionering</a> <a href="labo_9/Opdracht%20positionering/Styles/Style_opdracht_positionering.css">CSS lorem positionering</a>
-<br>
-<a href="labo_9/Opdracht%20airbus/html/airbus.html">airbus</a> <a href="labo_9/Opdracht%20airbus/css/styleairbus.css">CSS airbus</a>
-<h2>labo_10</h2>
-<a href="labo_10/Beginsituatie%20media%20queries%20(3)/Beginsituatie%20media%20queries/oef1.html">beginsituatie</a> <a href="labo_10/Beginsituatie%20media%20queries%20(3)/Beginsituatie%20media%20queries/CSS/oef1.css">CSS beginsituatie</a>
-<br>
-<a href="labo_10/Demo%20responsive%20design/Demo%20responsive%20design/Bootstrap/index.html">oef1</a> <a href="labo_10/Demo%20responsive%20design/Demo%20responsive%20design/Bootstrap/style/style.css">CSS oef1</a>
-<br>
-<a href="labo_10/Demo%20responsive%20design/Demo%20responsive%20design/Float/index.html">oef2</a> <a href="labo_10/Demo%20responsive%20design/Demo%20responsive%20design/Float/Style/style.css">CSS oef2</a>
-<br>
-<a href="labo_10/Composition/html/compositie.html">oefening compositie</a> <a href="labo_10/Composition/css/style.css">CSS compositie</a>
-<h2>labo 11</h2>
-<a href="labo_11/Grid%20exercises/index.html">Grid excercises</a>
-<br>
-<a href="labo_11/Beginsituatie/index.html">aparte oefening</a> <a href="labo_11/Beginsituatie/style/style.css">CSS aparte oefening</a>
-<br>
-<h2>labo 12</h2>
-<br>
-<h2>labo 13</h2>
-<a href="labo_13/RMindex.html">Opdracht rekenmachine</a> <a href="labo_13/styles/RMindex.css">CSS</a>
-<a href="labo_13/scripts/RMindex.js">javascript</a>
-<br>
-<h2>labo 14</h2>
-<a href="labo_14/innerHTML.html">Opdracht innerHTML</a>
-<a href="labo_14/scripts/innerHTMLScript.js">javascript innerHTML</a>
-<br>
-<a href="labo_14/kopieer.html">Opdracht kopieer</a>
-<a href="labo_14/scripts/kopieerScript.js">javascript kopieer</a>
-<br>
-<a href="labo_14/substring.html">Opdracht substring</a>
-<a href="labo_14/scripts/substringScript.js">javascript substring</a>
-<br>
-<a href="labo_14/scripts/arrayScript.js">javascript array</a>
-<br>
-<a href="labo_14/scripts/dialoogvensterScript.js">javascript dialoogvenster</a>
-<br>
-<h2>labo 15</h2>
-<a href="labo_15/paragrafen/index.html">Opdracht paragrafen</a>
-<a href="labo_15/paragrafen/scripts/indexScript.js">javascript paragraf</a>
-<br>
-<a href="labo_15/kleurenwisselaar/index.html">Opdracht kleurenwisselaar</a>
-<a href="labo_15/kleurenwisselaar/scripts/indexScript.js">javascript paragraf</a>
-<br>
-<a href="labo_15/colorpicker/index.html">Opdracht paragrafen</a>
-<a href="labo_15/colorpicker/scripts/indexScript.js">javascript paragraf</a>
-<br>
-<a href="labo_15/producten/index.html">Opdracht selectors</a>
-<a href="labo_15/producten/scripts/indexScript.js">javascript paragraf</a>
+
+<div class="bg-sun"></div>
+<div class="bg-grid"></div>
+
+<div class="wrapper">
+
+    <header>
+        <p class="header-tag">// STUDENT ARCHIVE — VIVES HOGESCHOOL</p>
+        <h1>WEB<br>DEVELOPMENT</h1>
+        <p class="header-subtitle">LABO INDEX <span class="cursor">█</span></p>
+        <div class="header-line"></div>
+    </header>
+
+    <!-- PERSONAL HOMEPAGE -->
+    <section>
+        <h2 class="section-heading">Personal Homepage</h2>
+        <div class="link-grid">
+            <a class="link-card" href="labo_4%20+%20homepage/Homepage/hoofdpagina%20index.html">
+                <div class="card-prefix">html</div>
+                <div class="card-label">Personal Homepage</div>
+                <span class="card-arrow">→</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- LABO 2 -->
+    <section>
+        <h2 class="section-heading">Labo 02</h2>
+        <div class="link-grid">
+            <a class="link-card" href="labo_2/Opdracht%2010.html">
+                <div class="card-prefix">opdracht 10</div>
+                <div class="card-label">Headings Exercise</div>
+                <span class="card-arrow">→</span>
+            </a>
+            <a class="link-card" href="labo_2/voorbeeld%20headings.html">
+                <div class="card-prefix">opdracht 09</div>
+                <div class="card-label">Voorbeeld Headings</div>
+                <span class="card-arrow">→</span>
+            </a>
+            <a class="link-card" href="labo_2/Opdracht%205.html">
+                <div class="card-prefix">opdracht 05</div>
+                <div class="card-label">Opdracht 5</div>
+                <span class="card-arrow">→</span>
+            </a>
+            <a class="link-card" href="labo_2/Opdracht%204.html">
+                <div class="card-prefix">opdracht 04</div>
+                <div class="card-label">Opdracht 4</div>
+                <span class="card-arrow">→</span>
+            </a>
+            <a class="link-card" href="labo_2/Opdracht%203.html">
+                <div class="card-prefix">opdracht 03</div>
+                <div class="card-label">Opdracht 3</div>
+                <span class="card-arrow">→</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- LABO 3 -->
+    <section>
+        <h2 class="section-heading">Labo 03</h2>
+        <div class="link-grid">
+            <a class="link-card" href="labo_3/Personal%20homepage%20assistant.html">
+                <div class="card-prefix">html</div>
+                <div class="card-label">Personal Homepage Assistant</div>
+                <span class="card-arrow">→</span>
+            </a>
+            <a class="link-card" href="labo_3/Contact%20informatie.html">
+                <div class="card-prefix">html</div>
+                <div class="card-label">Contact Informatie</div>
+                <span class="card-arrow">→</span>
+            </a>
+            <a class="link-card" href="labo_3/Opleidingsaanbod%20VIVES.html">
+                <div class="card-prefix">html</div>
+                <div class="card-label">Opleidingsaanbod VIVES</div>
+                <span class="card-arrow">→</span>
+            </a>
+            <a class="link-card" href="labo_3/Homepage%20copy.html">
+                <div class="card-prefix">html</div>
+                <div class="card-label">Copy — Homepage & Tabel</div>
+                <span class="card-arrow">→</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- LABO 5 -->
+    <section>
+        <h2 class="section-heading">Labo 05</h2>
+        <div class="link-grid">
+            <div class="link-pair">
+                <a class="link-card" href="labo_5/Opdracht%206.html">
+                    <div class="card-prefix">html</div>
+                    <div class="card-label">Opdracht 6</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card css-card" href="labo_5/Opmaak.css">
+                    <div class="card-prefix">css</div>
+                    <div class="card-label">Stylesheet</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+            <a class="link-card" href="labo_5/Opdracht%207.html">
+                <div class="card-prefix">html</div>
+                <div class="card-label">Opdracht 7</div>
+                <span class="card-arrow">→</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- LABO 6 -->
+    <section>
+        <h2 class="section-heading">Labo 06</h2>
+        <div class="link-grid">
+            <div class="link-pair">
+                <a class="link-card" href="Labo_6/html/Opdracht%201.html">
+                    <div class="card-prefix">opdracht 01</div>
+                    <div class="card-label">Opdracht 1</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card css-card" href="Labo_6/css/Style%20Opdracht%201.css">
+                    <div class="card-prefix">css</div>
+                    <div class="card-label">CSS</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+            <div class="link-pair">
+                <a class="link-card" href="Labo_6/html/Opdracht%203.html">
+                    <div class="card-prefix">opdracht 03</div>
+                    <div class="card-label">Opdracht 3</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card css-card" href="Labo_6/css/Style%20Opdracht%203.css">
+                    <div class="card-prefix">css</div>
+                    <div class="card-label">CSS</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+            <div class="link-pair">
+                <a class="link-card" href="Labo_6/html/Opdracht%204.html">
+                    <div class="card-prefix">opdracht 04</div>
+                    <div class="card-label">Opdracht 4</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card css-card" href="Labo_6/css/Style%20Opdracht%204.css">
+                    <div class="card-prefix">css</div>
+                    <div class="card-label">CSS</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+            <div class="link-pair">
+                <a class="link-card" href="Labo_6/html/Opdracht%205.html">
+                    <div class="card-prefix">opdracht 05</div>
+                    <div class="card-label">Opdracht 5</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card css-card" href="Labo_6/css/Style%20Opdracht%205.css">
+                    <div class="card-prefix">css</div>
+                    <div class="card-label">CSS</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+            <div class="link-pair">
+                <a class="link-card" href="Labo_6/html/Opdracht%206.html">
+                    <div class="card-prefix">opdracht 06</div>
+                    <div class="card-label">Opdracht 6</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card css-card" href="Labo_6/css/Style%20Opdracht%206.css">
+                    <div class="card-prefix">css</div>
+                    <div class="card-label">CSS</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- LABO 7 -->
+    <section>
+        <h2 class="section-heading">Labo 07</h2>
+        <div class="link-grid">
+            <div class="link-pair">
+                <a class="link-card" href="labo_7/html/Opdracht%201%20Nature%20blog.html">
+                    <div class="card-prefix">html</div>
+                    <div class="card-label">Nature Blog</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card css-card" href="labo_7/css/Style%20Opdracht%20Nature%20blog.css">
+                    <div class="card-prefix">css</div>
+                    <div class="card-label">CSS</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+            <div class="link-pair">
+                <a class="link-card" href="labo_7/html/Opdracht%20homepage%20CSS.html">
+                    <div class="card-prefix">html</div>
+                    <div class="card-label">Homepage CSS</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card css-card" href="labo_7/css/Styles.css">
+                    <div class="card-prefix">css</div>
+                    <div class="card-label">CSS</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+            <div class="link-pair">
+                <a class="link-card" href="labo_7/html/Opdracht%20tabel%20vrienden.html">
+                    <div class="card-prefix">html</div>
+                    <div class="card-label">Tabel Vrienden</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card css-card" href="labo_7/css/Style%20tabel%20vrienden.css">
+                    <div class="card-prefix">css</div>
+                    <div class="card-label">CSS</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+            <div class="link-pair">
+                <a class="link-card" href="labo_7/html/Opdracht%20kalender.html">
+                    <div class="card-prefix">html</div>
+                    <div class="card-label">Kalender</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card css-card" href="labo_7/css/Style%20kalender.css">
+                    <div class="card-prefix">css</div>
+                    <div class="card-label">CSS</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- LABO 8 -->
+    <section>
+        <h2 class="section-heading">Labo 08</h2>
+        <div class="link-grid">
+            <div class="link-pair">
+                <a class="link-card" href="labo_8/html/Opdracht%20lorem%20ipsum.html">
+                    <div class="card-prefix">html</div>
+                    <div class="card-label">Lorem Ipsum</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card css-card" href="labo_8/css/css_lorem_ipsum.css">
+                    <div class="card-prefix">css</div>
+                    <div class="card-label">CSS</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+            <div class="link-pair">
+                <a class="link-card" href="labo_8/html/Cocktail%20bar.html">
+                    <div class="card-prefix">html</div>
+                    <div class="card-label">Cocktail Bar</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card css-card" href="labo_8/css/css_cocktailbar.css">
+                    <div class="card-prefix">css</div>
+                    <div class="card-label">CSS</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- LABO 9 -->
+    <section>
+        <h2 class="section-heading">Labo 09</h2>
+        <div class="link-grid">
+            <div class="link-pair">
+                <a class="link-card" href="labo_9/Opdracht%20positionering/html/positionering.html">
+                    <div class="card-prefix">html</div>
+                    <div class="card-label">Positionering</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card css-card" href="labo_9/Opdracht%20positionering/Styles/Style_opdracht_positionering.css">
+                    <div class="card-prefix">css</div>
+                    <div class="card-label">CSS</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+            <div class="link-pair">
+                <a class="link-card" href="labo_9/Opdracht%20airbus/html/airbus.html">
+                    <div class="card-prefix">html</div>
+                    <div class="card-label">Airbus</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card css-card" href="labo_9/Opdracht%20airbus/css/styleairbus.css">
+                    <div class="card-prefix">css</div>
+                    <div class="card-label">CSS</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- LABO 10 -->
+    <section>
+        <h2 class="section-heading">Labo 10 — Responsive Design</h2>
+        <div class="link-grid">
+            <div class="link-pair">
+                <a class="link-card" href="labo_10/Beginsituatie%20media%20queries%20(3)/Beginsituatie%20media%20queries/oef1.html">
+                    <div class="card-prefix">html</div>
+                    <div class="card-label">Beginsituatie Media Queries</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card css-card" href="labo_10/Beginsituatie%20media%20queries%20(3)/Beginsituatie%20media%20queries/CSS/oef1.css">
+                    <div class="card-prefix">css</div>
+                    <div class="card-label">CSS</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+            <div class="link-pair">
+                <a class="link-card" href="labo_10/Demo%20responsive%20design/Demo%20responsive%20design/Bootstrap/index.html">
+                    <div class="card-prefix">bootstrap</div>
+                    <div class="card-label">Oef 1 — Bootstrap</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card css-card" href="labo_10/Demo%20responsive%20design/Demo%20responsive%20design/Bootstrap/style/style.css">
+                    <div class="card-prefix">css</div>
+                    <div class="card-label">CSS</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+            <div class="link-pair">
+                <a class="link-card" href="labo_10/Demo%20responsive%20design/Demo%20responsive%20design/Float/index.html">
+                    <div class="card-prefix">float</div>
+                    <div class="card-label">Oef 2 — Float</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card css-card" href="labo_10/Demo%20responsive%20design/Demo%20responsive%20design/Float/Style/style.css">
+                    <div class="card-prefix">css</div>
+                    <div class="card-label">CSS</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+            <div class="link-pair">
+                <a class="link-card" href="labo_10/Composition/html/compositie.html">
+                    <div class="card-prefix">html</div>
+                    <div class="card-label">Compositie</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card css-card" href="labo_10/Composition/css/style.css">
+                    <div class="card-prefix">css</div>
+                    <div class="card-label">CSS</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- LABO 11 -->
+    <section>
+        <h2 class="section-heading">Labo 11 — CSS Grid</h2>
+        <div class="link-grid">
+            <a class="link-card" href="labo_11/Grid%20exercises/index.html">
+                <div class="card-prefix">html</div>
+                <div class="card-label">Grid Exercises</div>
+                <span class="card-arrow">→</span>
+            </a>
+            <div class="link-pair">
+                <a class="link-card" href="labo_11/Beginsituatie/index.html">
+                    <div class="card-prefix">html</div>
+                    <div class="card-label">Aparte Oefening</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card css-card" href="labo_11/Beginsituatie/style/style.css">
+                    <div class="card-prefix">css</div>
+                    <div class="card-label">CSS</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- LABO 12 (empty) -->
+    <section>
+        <h2 class="section-heading">Labo 12</h2>
+        <div style="color:var(--fg); opacity:0.3; font-size:0.75rem; letter-spacing:0.15em; padding:0.5rem 0;">
+            // NO FILES INDEXED
+        </div>
+    </section>
+
+    <!-- LABO 13 -->
+    <section>
+        <h2 class="section-heading">Labo 13 — JavaScript</h2>
+        <div class="link-grid">
+            <div class="link-pair">
+                <a class="link-card" href="labo_13/RMindex.html">
+                    <div class="card-prefix">html</div>
+                    <div class="card-label">Rekenmachine</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card css-card" href="labo_13/styles/RMindex.css">
+                    <div class="card-prefix">css</div>
+                    <div class="card-label">CSS</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+            <a class="link-card js-card" href="labo_13/scripts/RMindex.js">
+                <div class="card-prefix">js</div>
+                <div class="card-label">JavaScript — Rekenmachine</div>
+                <span class="card-arrow">→</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- LABO 14 -->
+    <section>
+        <h2 class="section-heading">Labo 14 — DOM Manipulation</h2>
+        <div class="link-grid">
+            <div class="link-pair">
+                <a class="link-card" href="labo_14/innerHTML.html">
+                    <div class="card-prefix">html</div>
+                    <div class="card-label">innerHTML</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card js-card" href="labo_14/scripts/innerHTMLScript.js">
+                    <div class="card-prefix">js</div>
+                    <div class="card-label">Script</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+            <div class="link-pair">
+                <a class="link-card" href="labo_14/kopieer.html">
+                    <div class="card-prefix">html</div>
+                    <div class="card-label">Kopieer</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card js-card" href="labo_14/scripts/kopieerScript.js">
+                    <div class="card-prefix">js</div>
+                    <div class="card-label">Script</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+            <div class="link-pair">
+                <a class="link-card" href="labo_14/substring.html">
+                    <div class="card-prefix">html</div>
+                    <div class="card-label">Substring</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card js-card" href="labo_14/scripts/substringScript.js">
+                    <div class="card-prefix">js</div>
+                    <div class="card-label">Script</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+            <a class="link-card js-card" href="labo_14/scripts/arrayScript.js">
+                <div class="card-prefix">js</div>
+                <div class="card-label">Array Script</div>
+                <span class="card-arrow">→</span>
+            </a>
+            <a class="link-card js-card" href="labo_14/scripts/dialoogvensterScript.js">
+                <div class="card-prefix">js</div>
+                <div class="card-label">Dialoogvenster Script</div>
+                <span class="card-arrow">→</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- LABO 15 -->
+    <section>
+        <h2 class="section-heading">Labo 15 — Events & Selectors</h2>
+        <div class="link-grid">
+            <div class="link-pair">
+                <a class="link-card" href="labo_15/paragrafen/index.html">
+                    <div class="card-prefix">html</div>
+                    <div class="card-label">Paragrafen</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card js-card" href="labo_15/paragrafen/scripts/indexScript.js">
+                    <div class="card-prefix">js</div>
+                    <div class="card-label">Script</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+            <div class="link-pair">
+                <a class="link-card" href="labo_15/kleurenwisselaar/index.html">
+                    <div class="card-prefix">html</div>
+                    <div class="card-label">Kleurenwisselaar</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card js-card" href="labo_15/kleurenwisselaar/scripts/indexScript.js">
+                    <div class="card-prefix">js</div>
+                    <div class="card-label">Script</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+            <div class="link-pair">
+                <a class="link-card" href="labo_15/colorpicker/index.html">
+                    <div class="card-prefix">html</div>
+                    <div class="card-label">Color Picker</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card js-card" href="labo_15/colorpicker/scripts/indexScript.js">
+                    <div class="card-prefix">js</div>
+                    <div class="card-label">Script</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+            <div class="link-pair">
+                <a class="link-card" href="labo_15/producten/index.html">
+                    <div class="card-prefix">html</div>
+                    <div class="card-label">Selectors — Producten</div>
+                    <span class="card-arrow">→</span>
+                </a>
+                <a class="link-card js-card" href="labo_15/producten/scripts/indexScript.js">
+                    <div class="card-prefix">js</div>
+                    <div class="card-label">Script</div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        &copy; WEB DEVELOPMENT ARCHIVE // ALL LINKS PRESERVED // VAPORWAVE INDEX v1.0
+    </footer>
+
+</div>
+
 </body>
 </html>
