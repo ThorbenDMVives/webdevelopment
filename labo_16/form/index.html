@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles/indexStyle.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>invulformulier</title>
+</head>
+<body>
+<h1>Invulformulier</h1>
+    <form>
+        <div>
+            <h2>Persoonlijke informatie</h2>
+            <span>Voornaam*: </span><input type="text" name="firstname" placeholder="Your first name" required>
+            <span>Familienaam*: </span><input type="text" name="lastname" placeholder="Your last name" required>
+        </div>
+        <div>
+            <h2>Sport</h2>
+            <p>welke sport beoefen je?</p>
+            <input type="checkbox" name="lopen" required> <span> Lopen</span>
+            <input type="checkbox" name="lopen" required> <span> Zwemmen</span>
+            <input type="checkbox" name="lopen" required> <span> Roeien</span>
+        </div>
+        <div>
+            <h2>Communicatievoorkeur</h2>
+            <p>Hoe kunnen we je bereiken</p>
+            <input type="radio" name="lopen" required> <span> Per post</span>
+            <input type="radio" name="lopen" required> <span> E-mail</span>
+        </div>
+        <div>
+            <h2>Favorieten</h2>
+            <span>Favoriete film: </span><input type="text" name="favoritemovie">
+            <span>Favoriete quote: </span><input type="text" name="lastname" placeholder="Schrijf je favoriete quote" required>
+            <span>Favoriete eten: </span>
+            <select name="favoriten">
+            <option value="Hamburger">Hamburger</option>
+            <option value="Hot-dog">Hot-dog</option>
+            <option value="Pizza">Pizza</option>
+            </select>
+            <span>Favoriete browser: </span><input type="text" name="favoritebrowser">
+        </div>
+        <div>
+            <h2>Beveiliging & contact</h2>
+            <span>Wachtwoord*: </span><input type="text" name="password">
+            <span>E-mailadres: </span><input type="text" name="mailadres" placeholder="Geef je e-mailadres in" required>
+            <span>E-mailadres: </span><input type="text" name="mailadres" placeholder="Geef de URL van je favoriete site" required>
+        </div>
+        <div>
+            <h2>Extra informatie</h2>
+            <span>Favoriete getal tussen 1-10: </span><input type="text" name="getal">
+            <span>Favoriete getal tussen 11-1000: </span><input type="range" name="slider" value="500" min="11" max="1000">
+            <span>Wanneer ben je geboren? </span><input type="date" name="birthday">
+            <span>Belgische postcode*:</span><input type="text" name="postcode" placeholder="9999" required>
+        </div>
+        <div>
+                <h2>Varia</h2>
+            <span>Zoeken naar iets: </span><input type="text" name="zoek">
+            <span>wat is je lievelingskleur? </span><input type="color" name="color">
+            <input type="file" name="file"><span>Geen bestand gekozen</span>
+        </div>
+    </form>
+<script type="text/javascript" charset="utf-8" src="scripts/indexScript.js"></script>
+</body>
+</html>
